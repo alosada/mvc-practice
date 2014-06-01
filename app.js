@@ -8,6 +8,7 @@ function initialize(){
 
 function Game(length){
   this.players = []
+  this.playerNumber = 0
   this.keys = []
   this.trackLength = length
   console.log("game printed this")
@@ -28,9 +29,12 @@ Player.prototype = {
 
 Game.prototype = {
   bindEventListeners: function(){
-    document.addEventListener('keyup', this.getKeyCode);
-    document.getElementById("player-number-form").addEventListener('submit', this.startGame);
-    document.getElementById("keys").addEventListener('click', this.newPlayer);
+    var playerForm =  document.getElementById("player-number-form")
+    var keys = document.getElementById("keys")
+
+    document.addEventListener('keyup', this.getKeyCode.bind(this));
+    playerForm.addEventListener('submit', this.startGame.bind(this));
+    keys.addEventListener('click', this.newPlayer.bind(this));
   },
 
   getKeyCode: function(e){
@@ -39,7 +43,8 @@ Game.prototype = {
 
   startGame: function(e) {
    e.preventDefault()
-   var numberOfPlayers = document.getElementById("player-number").value
+   this.playerNumber = document.getElementById("player-number").value
+   document.getElementById("keys").style.display = "inline";
   },
 
   initPlayers: function(numberOfPlayers) {
@@ -49,6 +54,8 @@ Game.prototype = {
     // }
   },
     newPlayer: function(){
-      return new Player(event.target.innerHTML)
+      this.keys.push(event.target.id)
+      document.getElementById("choosing-player").innerHTML = 1+this.keys.length;
+      //return new Player(event.target.innerHTML)
    }
 }
