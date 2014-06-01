@@ -1,7 +1,6 @@
 window.addEventListener( 'load', initialize)
 
 function initialize(){
-  console.log("initialize printed this")
   game = new Game(10)
   game.bindEventListeners()
 }
@@ -11,11 +10,9 @@ function Game(length){
   this.playerNumber = 0
   this.keys = []
   this.trackLength = length
-  console.log("game printed this")
 }
 
 function Player(){
-  console.log("player printed this")
   this.position =  0;
   this.key = 66;
 }
@@ -44,18 +41,20 @@ Game.prototype = {
   startGame: function(e) {
    e.preventDefault()
    this.playerNumber = document.getElementById("player-number").value
-   document.getElementById("keys").style.display = "inline";
+   document.getElementById("player-number-form").style.display = "none";
+   document.getElementById("keys").style.display = "block";
   },
 
   initPlayers: function(numberOfPlayers) {
-    // for(var i=0; i<numberOfPlayers; i++){
-    //   debugger
-    //   this.players.push()
-    // }
+
   },
     newPlayer: function(){
-      this.keys.push(event.target.id)
+      var key = event.target.id
+      this.keys.push(key)
+      document.getElementById(key).style.visibility = "hidden";
       document.getElementById("choosing-player").innerHTML = 1+this.keys.length;
-      //return new Player(event.target.innerHTML)
+      if(this.keys.length == this.playerNumber){
+        document.getElementById("keys").style.display = "none";
+      }
    }
 }
